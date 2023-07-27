@@ -1,12 +1,15 @@
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.5.0 |
+| <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | 0.95.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | n/a |
+| <a name="provider_yandex"></a> [yandex](#provider\_yandex) | 0.95.0 |
 
 ## Modules
 
@@ -16,8 +19,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [yandex_compute_instance.vm](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/compute_instance) | resource |
-| [yandex_compute_image.my_image](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/data-sources/compute_image) | data source |
+| [yandex_compute_instance.vm](https://registry.terraform.io/providers/yandex-cloud/yandex/0.95.0/docs/resources/compute_instance) | resource |
+| [yandex_compute_image.my_image](https://registry.terraform.io/providers/yandex-cloud/yandex/0.95.0/docs/data-sources/compute_image) | data source |
 
 ## Inputs
 

@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.5.0" 
+  required_version = ">= 1.5.0"
   required_providers {
     yandex = {
       source  = "yandex-cloud/yandex"
@@ -14,17 +14,17 @@ terraform {
     key        = "tfstate/terraform.tfstate"
     access_key = "YCAJEwrHvC4MddyUJDNO0iibI"
     secret_key = "YCPEmpWewdJ_qIO8QdDdjp4WJhCWXUN1qxXksC11"
-    
+
     skip_region_validation      = true
     skip_credentials_validation = true
   }
 }
 
 provider "yandex" {
-  token      = var.token
-  cloud_id   = var.cloud_id
-  folder_id  = var.folder_id
-#  zone                     = "ru-central1-a"
+  token     = var.token
+  cloud_id  = var.cloud_id
+  folder_id = var.folder_id
+  #  zone                     = "ru-central1-a"
 }
 
 resource "yandex_vpc_network" "network" {
@@ -50,7 +50,7 @@ module "ya_instance_1" {
   source                = "./modules/instance"
   instance_family_image = "lemp"
   vpc_subnet_id         = yandex_vpc_subnet.subnet1.id
-#  zone                  = "ru-central1-a"
+  #  zone                  = "ru-central1-a"
 }
 
 module "ya_instance_2" {

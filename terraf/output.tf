@@ -13,3 +13,7 @@ output "internal_ip_address_vm_2" {
 output "external_ip_address_vm_2" {
   value = module.ya_instance_2.external_ip_address_vm
 }
+
+output "external_ip_address_balancer" {
+  value = yandex_lb_network_load_balancer.net-balancer.listener[*].external_address_spec[*].address
+}

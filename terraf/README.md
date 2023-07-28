@@ -22,6 +22,8 @@
 
 | Name | Type |
 |------|------|
+| [yandex_lb_network_load_balancer.net-balancer](https://registry.terraform.io/providers/yandex-cloud/yandex/0.95.0/docs/resources/lb_network_load_balancer) | resource |
+| [yandex_lb_target_group.target_group](https://registry.terraform.io/providers/yandex-cloud/yandex/0.95.0/docs/resources/lb_target_group) | resource |
 | [yandex_vpc_network.network](https://registry.terraform.io/providers/yandex-cloud/yandex/0.95.0/docs/resources/vpc_network) | resource |
 | [yandex_vpc_subnet.subnet1](https://registry.terraform.io/providers/yandex-cloud/yandex/0.95.0/docs/resources/vpc_subnet) | resource |
 | [yandex_vpc_subnet.subnet2](https://registry.terraform.io/providers/yandex-cloud/yandex/0.95.0/docs/resources/vpc_subnet) | resource |
@@ -38,6 +40,7 @@
 
 | Name | Description |
 |------|-------------|
+| <a name="output_external_ip_address_balancer"></a> [external\_ip\_address\_balancer](#output\_external\_ip\_address\_balancer) | n/a |
 | <a name="output_external_ip_address_vm_1"></a> [external\_ip\_address\_vm\_1](#output\_external\_ip\_address\_vm\_1) | n/a |
 | <a name="output_external_ip_address_vm_2"></a> [external\_ip\_address\_vm\_2](#output\_external\_ip\_address\_vm\_2) | n/a |
 | <a name="output_internal_ip_address_vm_1"></a> [internal\_ip\_address\_vm\_1](#output\_internal\_ip\_address\_vm\_1) | n/a |

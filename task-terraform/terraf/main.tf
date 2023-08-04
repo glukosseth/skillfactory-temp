@@ -12,8 +12,8 @@ terraform {
     bucket     = "tf-state-bucket-glukoss"
     region     = "ru-central1-a"
     key        = "tfstate/terraform.tfstate"
-    access_key = "YCAJEwrHvC4MddyUJDNO0iibI"
-    secret_key = "YCPEmpWewdJ_qIO8QdDdjp4WJhCWXUN1qxXksC11"
+    access_key = ""
+    secret_key = ""
 
     skip_region_validation      = true
     skip_credentials_validation = true

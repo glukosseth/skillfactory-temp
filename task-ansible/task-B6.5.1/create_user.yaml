@@ -1,0 +1,28 @@
+---
+- name: Create user and setup SSH key
+  hosts: web132
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: Create user user1
+      user:
+        name: user1
+        state: present
+        createhome: yes
+
+    - name: Create .ssh directory
+      file:
+        path: /home/user1/.ssh
+        state: directory
+        mode: '0700'
+        owner: user1
+
+    - name: Add SSH public key to authorized_keys
+      copy:
+        src: /home/user/.ansible/file/id_rsa.pub
+        dest: /home/user1/.ssh/authorized_keys
+        owner: user1
+        mode: '0600'
+
+

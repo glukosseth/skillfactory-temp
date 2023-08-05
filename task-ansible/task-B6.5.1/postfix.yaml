@@ -1,0 +1,29 @@
+---
+- hosts: web132
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: Install Postfix
+      apt:
+        name: postfix
+        state: present
+        update_cache: true
+      tags:
+      - init_postfix
+      notify:
+      - Start Postfix
+
+    - name: Remove Postfix
+      apt:
+        name: postfix
+        state: absent
+      tags:
+      - drop_postfix
+
+  handlers:
+    - name: Start Postfix
+      service:
+        name: postfix
+        state: started
+        enabled: yes

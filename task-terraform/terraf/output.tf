@@ -17,4 +17,4 @@ output "external_ip_address_vm_2" {
 output "external_ip_address_balancer" {
   value = yandex_lb_network_load_balancer.net-balancer.listener[*].external_address_spec[*].address
 }
-# output "load_balancer_public_ip" { description = "Public IP address of load balancer" value = yandex_lb_network_load_balancer.k8s-load-balancer.listener.*.external_address_spec[0].*.address }
+# output "external_ip_address_balancer" { description = "Public IP address of load balancer" value = yandex_lb_network_load_balancer.net-balancer.listener.*.external_address_spec[0].*.address }

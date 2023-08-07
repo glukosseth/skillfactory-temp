@@ -1,0 +1,6 @@
+---
+- hosts: web132
+  gather_facts: no
+  become: yes
+  roles:
+   - vsftpd

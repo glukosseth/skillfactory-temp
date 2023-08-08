@@ -1,0 +1,39 @@
+# tasks file for dnsmasq-role
+---
+- name: Install dnsmasq package
+  apt:
+    name: dnsmasq
+    state: present
+
+- name: Install resolvconf package
+  apt:
+    name: resolvconf
+    state: present
+
+- name: Stop systemd-resolved service
+  service:
+    name: systemd-resolved
+    state: stopped
+    enabled: no
+
+- name: Configure dnsmasq
+  template:
+    src: dnsmasq.conf.j2
+    dest: /etc/dnsmasq.conf
+  notify: Restart dnsmasq
+
+- name: Start dnsmasq service
+  service:
+    name: dnsmasq
+    state: started
+    enabled: yes
+
+- name: Allow dnsmasq in the firewall
+  ufw:
+    rule: allow
+    state: enabled
+    port: "{{ item }}"
+    proto: any
+  loop:
+    - 22
+    - 53

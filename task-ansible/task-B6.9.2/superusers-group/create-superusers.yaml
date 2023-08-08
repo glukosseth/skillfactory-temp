@@ -1,0 +1,28 @@
+---
+- name: Create superusers group and configure sudo
+  hosts: web132
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: Create superusers group
+      group:
+        name: superusers
+        state: present
+
+    - name: Add users user2 and user3 to the superusers group
+      user:
+        name: "{{ item }}"
+        password: '$6$FlmSlIM9q$jnWOeSxi.s5F9AIFb8/f.jMswWFeMLUiUVWlnA0Jyq7pa/2JrlhbMeCgBL6di0SOp4jNYZgAnHTRdgsARf7mD0'
+        groups: superusers
+        append: yes
+      loop:
+        - user2
+        - user3
+
+    - name: Configure sudoers to allow superusers to become root
+      lineinfile:
+        path: /etc/sudoers
+        regexp: '^%superusers'
+        line: '%superusers ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'

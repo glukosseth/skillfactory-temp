@@ -1,0 +1,62 @@
+---
+- hosts: all
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: true
+
+    - name: Start and enable Docker service
+      service:
+         name: docker
+         state: started
+         enabled: yes
+
+    - name: Создание файла конфигурации репозитория PostgreSQL
+      shell: |
+        echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+      changed_when: false  # Указываем, что это действие не всегда считается изменением
+
+    - name: Импорт ключа репозитория PostgreSQL
+      shell: |
+        wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+      changed_when: false  # Указываем, что это действие не всегда считается изменением
+
+    - name: Обновление списка пакетов
+      apt:
+        update_cache: yes
+
+    - name: Установка PostgreSQL
+      apt:
+        name: postgresql  # Имя пакета PostgreSQL для Ubuntu
+        state: present  # Установить PostgreSQL
+
+    - name: Запуск и активация PostgreSQL
+      systemd:
+        name: postgresql
+        state: started
+        enabled: yes

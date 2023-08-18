@@ -1,0 +1,47 @@
+version: "3.9"
+
+x-logging: &logging
+  driver: "json-file"
+  options:
+    max-size: "1000m"
+    max-file: "1"
+services:
+  web:
+    build: .
+    ports:
+      - "127.0.0.1:${PORT}:5000"
+    depends_on:
+      - redis
+    restart: unless-stopped   
+    networks:
+      - "net"
+    logging: *logging
+    depends_on:
+      redis:
+        condition: service_healthy
+  redis:
+    image: "redis:alpine"
+    volumes:
+      - redis-data:/data  
+    restart: unless-stopped
+    profiles:
+      - db
+    networks:
+      - "net"
+    logging: *logging
+    deploy:
+      resources:
+        limits:
+          cpus: "${DOCKER_WEB_CPUS}"
+          memory: "${DOCKER_WEB_MEMORY}"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+networks:
+  net:
+
+volumes:
+  redis-data:

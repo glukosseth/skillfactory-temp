@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./www/:/var/www/
+    networks:
+      - internal
+
+  php:
+    build: .
+    restart: unless-stopped   
+    volumes:
+      - ./www/:/var/www/
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://nginx | grep works"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+networks:
+  internal:
+    driver: bridge

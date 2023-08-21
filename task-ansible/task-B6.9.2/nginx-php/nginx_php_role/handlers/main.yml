@@ -1,0 +1,6 @@
+# handlers file for nginx_php_role
+---
+- name: Reload nginx
+  service:
+    name: nginx
+    state: reloaded

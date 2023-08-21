@@ -1,0 +1,37 @@
+# tasks file for nginx_php_role
+---
+- name: Install nginx and php-fpm packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - nginx
+    - php-fpm
+
+- name: Start and enable service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Create DocumentRoot directory
+  file:
+    path: /opt/nginx/ansible
+    state: directory
+
+- name: Create PHP info page
+  template:
+    src: index.php.j2
+    dest: /opt/nginx/ansible/index.php
+
+- name: Copy nginx virtual host configuration
+  template:
+    src: default.j2
+    dest: /etc/nginx/sites-available/default
+  notify: Reload nginx
+
+- name: Create symbol link create
+  file:
+    src: /etc/nginx/sites-available/default
+    dest: /etc/nginx/sites-enabled/default
+    state: link

@@ -1,2 +1,3 @@
 # task-artifact
-/home/user/gitrepo/skillf-ansib/skillf-ansible/task-artifact/task-B9.2.7/node_modules/*
+task-artifact/task-B9.2.7/node_modules/*
+task-artifact/task-B9.3.4/vendor/*

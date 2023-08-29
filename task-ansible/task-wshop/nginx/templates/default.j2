@@ -1,0 +1,14 @@
+# default.conf.j2
+server {
+    server_name localhost;
+    root /var/www/html;
+    index index.php index.html index.htm;
+
+
+    location ~ \.php$ {
+        fastcgi_pass {{ ip_php_server }}:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include /etc/nginx/fastcgi_params;
+    }
+}

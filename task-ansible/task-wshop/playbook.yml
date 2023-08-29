@@ -1,0 +1,13 @@
+- hosts: yc1
+  gather_facts: yes
+  become: yes
+  roles:
+    - create_user
+    - nginx
+
+- hosts: yc2
+  gather_facts: yes
+  become: yes
+  roles:
+    - create_user
+    - php-fpm

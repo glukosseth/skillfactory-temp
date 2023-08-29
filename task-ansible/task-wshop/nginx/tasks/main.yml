@@ -1,0 +1,27 @@
+---
+# tasks file for nginx
+- name: Install required system packages
+  apt:
+    update_cache: true
+
+- name: Install nginx packages
+  apt:
+    name: nginx
+    state: present
+
+- name: Start and enable service
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Copy nginx virtual host configuration
+  template:
+    src: default.j2
+    dest: /etc/nginx/sites-available/default
+  notify: Reload nginx
+
+- name: Create PHP info page
+  template:
+    src: index.php.j2
+    dest: /var/www/html/index.php

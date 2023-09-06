@@ -1,3 +1,7 @@
 # task-artifact
 task-artifact/task-B9.2.7/node_modules/*
 task-artifact/task-B9.3.4/vendor/*
+task-ansible/task-prj6/.terraform/*
+task-ansible/task-prj6/.terraform.lock.hcl
+task-ansible/task-prj6/modules/instance/.terraform
+task-ansible/task-prj6/modules/instance/.terraform.lock.hcl

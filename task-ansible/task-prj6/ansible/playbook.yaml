@@ -1,0 +1,101 @@
+---
+- hosts: app
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: Install Docker to Ubuntu
+      block:
+        - name: Install required system packages
+          apt:
+            pkg:
+              - apt-transport-https
+              - ca-certificates
+              - curl
+              - software-properties-common
+            state: latest
+            update_cache: true
+
+        - name: Add Docker GPG apt Key
+          apt_key:
+            url: https://download.docker.com/linux/ubuntu/gpg
+            state: present
+
+        - name: Add Docker Repository
+          apt_repository:
+            repo: deb https://download.docker.com/linux/ubuntu focal stable
+            state: present
+
+        - name: Update apt and install docker-ce
+          apt:
+            name: docker-ce
+            state: present
+            update_cache: true
+
+        - name: Start and enable Docker service
+          service:
+            name: docker
+            state: started
+            enabled: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Install Docker to CentOS
+      block:
+        - name: Install required system packages
+          yum:
+            name:
+              - yum-utils
+              - device-mapper-persistent-data
+              - lvm2
+              - wget
+            state: present
+
+        - name: Install Docker
+          shell: wget -O ~/docker-ce.rpm "https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-24.0.6-1.el7.x86_64.rpm" && sudo yum install ~/docker-ce.rpm -y
+          ignore_errors: yes
+
+        - name: Start Docker
+          service:
+            name: "docker"
+            enabled: true
+            state: started
+      when: ansible_os_family == "RedHat"
+
+- hosts: database
+  gather_facts: true
+  become: true
+
+  tasks:
+    - name: Install PostgreSQL
+      apt:
+        name: postgresql-{{ postgres_version }}
+        state: present
+
+    - name: Start PostgreSQL
+      systemd:
+        name: postgresql
+        enabled: yes
+        state: started
+      notify:
+        - Reload PostgreSQL
+
+    - name: Create data directory PostgreSQL
+      file:
+        path: '/home/ansible/{{ postgres_data_directory }}'
+        state: directory
+        owner: postgres
+        group: postgres
+        mode: '0700'
+
+    - name: Configure PostgreSQL conf file
+      lineinfile:
+        path: /etc/postgresql/{{ postgres_version }}/main/postgresql.conf
+        search_string: "data_directory = "
+        line: "data_directory = '/home/ansible/{{ postgres_data_directory }}'"
+      notify: Reload PostgreSQL
+
+  handlers:
+    - name: Reload PostgreSQL
+      systemd:
+        name: postgresql
+        state: reloaded

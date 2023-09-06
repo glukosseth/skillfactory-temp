@@ -1,0 +1,14 @@
+[app]
+158.160.36.145
+158.160.49.95
+[web]
+localhost
+[database]
+localhost
+
+[app:vars]
+ansible_user=user
+
+[database:vars]
+postgres_version=12
+postgres_data_directory=data

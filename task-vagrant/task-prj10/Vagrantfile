@@ -1,0 +1,28 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$script_python = <<END
+#!/bin/bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y python3-pip
+python3 -m pip install psycopg Django
+END
+
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.box_check_update = false
+
+  config.vm.define "pyth" do |pyth|
+      pyth.vm.hostname = "pyth"
+      pyth.vm.network "forwarded_port", guest: 22, host: 2222, id: "ssh"
+      pyth.vm.define "test_python"
+      pyth.vm.provider "virtualbox" do |vb|
+           vb.gui = false
+           vb.memory = "2048"
+           vb.cpus=2
+      end
+      pyth.vm.provision "file", source: "file", destination: "/home/vagrant/file"
+      pyth.vm.provision "shell", inline: $script_python
+  end
+end

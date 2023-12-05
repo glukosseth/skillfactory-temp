@@ -1,0 +1,26 @@
+groups: 
+- name: example
+  rules:
+  - alert: WebStatusChange
+    expr: probe_http_status_code != 200
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Web status code changed"
+      description: "The web status code of https://lms.skillfactory.ru has changed."
+  - alert: WebDelayExceeded
+    expr: probe_duration_seconds > 5
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Web delay exceeded"
+      description: "The delay to access https://lms.skillfactory.ru has exceeded 5 seconds."
+  - alert: ServerRestart
+    expr: changes(up{job="node"}[1h]) > 0
+    labels:
+      severity: critical
+    annotations:
+      summary: "Server Restart Detected"
+      description: "The server has restarted."

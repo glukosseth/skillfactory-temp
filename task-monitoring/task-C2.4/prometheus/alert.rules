@@ -1,0 +1,19 @@
+groups: 
+- name: example
+  rules:
+  - alert: PrometheusTargetMissing
+    expr: up == 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Prometheus target missing (instance {{ $labels.instance }})"
+      description: "A Prometheus target has disappeared. An exporter might be crashed. VALUE = {{ $value }}  LABELS: {{ $labels }}"
+  - alert: high_load
+    expr: node_load1 > 0.8
+    for: 30s
+    labels:
+      severity: warning
+    annotations:
+      summary: "Instance {{ $labels.instance }} under high load"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} is under high load."

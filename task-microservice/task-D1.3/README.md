@@ -1,4 +1,4 @@
-Docker Swarm
+# Docker Swarm
 
 ### Install Docker and Docker Compose
 ```Bash

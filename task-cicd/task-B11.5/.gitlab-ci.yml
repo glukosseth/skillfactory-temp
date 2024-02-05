@@ -1,0 +1,7 @@
+test:
+  script:
+    - echo "Running SQL script"
+    - mysql --user rfamro --host mysql-rfam-public.ebi.ac.uk --port 4497 --database Rfam -p < request.sql
+  only:
+    changes:
+      - "request.sql"

@@ -1,0 +1,75 @@
+Started by GitHub push by glukosseth
+Running as SYSTEM
+Building in workspace /var/lib/jenkins/workspace/skf
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/skf/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/glukosseth/skfact.git # timeout=10
+Fetching upstream changes from https://github.com/glukosseth/skfact.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.34.1'
+ > git fetch --tags --force --progress -- https://github.com/glukosseth/skfact.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 113a67fb569679d8a5494f0aa7bd5182e3fa0ca3 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 113a67fb569679d8a5494f0aa7bd5182e3fa0ca3 # timeout=10
+Commit message: "Edit index.html 13.02 v3"
+ > git rev-list --no-walk e8f63694bdaae0e643eaec581bc8310ae25ef679 # timeout=10
+[skf] $ /bin/sh -xe /tmp/jenkins4631586975928389719.sh
++ sudo cp index.html ../nginx/
++ sudo docker build -t nginx ../nginx/
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 337B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/nginx:latest
+#2 DONE 0.5s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 631B done
+#4 DONE 0.0s
+
+#5 [1/2] FROM docker.io/library/nginx:latest@sha256:0e1330510a8e57568e7e908b27a50658ae84de9e9f907647cb4628fbc799f938
+#5 resolve docker.io/library/nginx:latest@sha256:0e1330510a8e57568e7e908b27a50658ae84de9e9f907647cb4628fbc799f938 0.0s done
+#5 CACHED
+
+#6 [2/2] COPY index.html /usr/share/nginx/html/
+#6 DONE 0.1s
+
+#7 exporting to image
+#7 exporting layers 0.1s done
+#7 writing image sha256:2f8cffc1d8205e0827fd62756e57bf2c397289f0227a644a222fa8d41c30cf26 done
+#7 naming to docker.io/library/nginx 0.0s done
+#7 DONE 0.1s
++ sudo docker run -d --name skf-nginx -p 9889:80 nginx
+625f315bdeb282680c230aefaba533b0720defd874cbe466c0cd238c662cdb2e
+[skf] $ /bin/sh -xe /tmp/jenkins15657222114651115979.sh
++ sleep 5
++ sudo curl -s -o /dev/null -w %{http_code} http://localhost:9889/
++ KODE=200
++ md5sum ../nginx/index.html
++ awk {print $1}
++ md5_loc=44a4b92b6d82e1e2cf39cb2f59aa83a8
++ sudo docker exec -i skf-nginx md5sum /usr/share/nginx/html/index.html
++ awk {print $1}
++ md5_dock=44a4b92b6d82e1e2cf39cb2f59aa83a8
+[skf] $ /bin/sh -xe /tmp/jenkins7086942649463238839.sh
++ [  =  ]
++ echo Build SUCCESS
+Build SUCCESS
+[skf] $ /bin/sh -xe /tmp/jenkins8289854907359396268.sh
++ sudo docker stop skf-nginx
+skf-nginx
++ sudo docker rm skf-nginx
+skf-nginx
++ sudo docker image rm nginx
+Untagged: nginx:latest
+Deleted: sha256:2f8cffc1d8205e0827fd62756e57bf2c397289f0227a644a222fa8d41c30cf26
+Finished: SUCCESS
